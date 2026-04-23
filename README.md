@@ -23,7 +23,7 @@ src/
 
 ---
 
-## Soal Review — Linked List
+## Soal 1 — Review Linked List
 
 ### 1. Jelaskan konsep dasar Linked List dan perbedaannya dengan Array!
 
@@ -102,7 +102,55 @@ Terdapat tiga skenario:
 
 ---
 
-## Soal Review — Stack dan Queue
+## Soal 2 — Case: Sistem Manajemen Buku Perpustakaan
+
+### Deskripsi Program
+
+Program `LibraryApp` mengelola daftar buku perpustakaan menggunakan **Single Linked List** yang diimplementasikan dari nol (tanpa library bawaan Java). Setiap buku disimpan sebagai node yang memiliki tiga atribut: `kodeBuku`, `judul`, dan `penulis`.
+
+### Struktur Data yang Digunakan
+
+- **`Node`** — menyimpan satu data buku dan pointer `next` ke buku berikutnya.
+- **`LinkedList`** — mengelola chain of nodes dengan pointer `head` sebagai titik masuk.
+
+### Fitur dan Cara Kerja
+
+| Menu | Operasi | Cara Kerja |
+|---|---|---|
+| Tambah Buku | `push()` | Node baru dibuat lalu ditambahkan di **akhir** linked list dengan traversal hingga `node.next == null`. Validasi: kode buku maks. 5 karakter. |
+| Hapus Buku | `pop()` | Traversal hingga node kedua dari terakhir, lalu `node.next` di-set `null`. Jika kosong, tampilkan pesan "Tidak ada data untuk dihapus." |
+| Cari Buku | `cari()` | Traversal dari `head`, bandingkan `kodeBuku` setiap node secara case-insensitive hingga ditemukan atau list habis. |
+| Lihat Semua | `tampilkan()` | Traversal penuh dari `head` ke tail, cetak tiap node. Tampilkan total buku dan peringatan jika kurang dari 5. |
+
+### Contoh Output Program
+
+```
+===== SISTEM DATA BUKU =====
+1. Tambah Buku
+2. Hapus Buku
+3. Cari Buku
+4. Lihat Semua Buku
+5. Keluar
+Pilih menu: 1
+
+Masukkan Kode Buku (maks. 5 karakter): BK101
+Masukkan Judul: Struktur Data
+Masukkan Penulis: Michael Goodrich
+Data berhasil ditambahkan!
+Total buku saat ini: 1
+
+Pilih menu: 4
+Daftar Buku:
+----------------------------------------------------------
+Kode: BK101 | Judul: Struktur Data | Penulis: Michael Goodrich
+----------------------------------------------------------
+Total Buku: 1
+(Peringatan: Jumlah buku belum memenuhi minimum 5 buku)
+```
+
+---
+
+## Soal 3 — Review Stack dan Queue
 
 ### 1. Jelaskan perbedaan antara Stack dan Queue!
 
@@ -121,6 +169,7 @@ Terdapat tiga skenario:
 ### 2. Sebutkan operasi utama dalam Stack dan Queue!
 
 **Operasi Stack:**
+
 | Operasi | Keterangan |
 |---|---|
 | `push(data)` | Menambahkan elemen baru ke bagian atas stack (top) |
@@ -130,6 +179,7 @@ Terdapat tiga skenario:
 | `size()` | Mengembalikan jumlah elemen dalam stack |
 
 **Operasi Queue:**
+
 | Operasi | Keterangan |
 |---|---|
 | `enqueue(data)` | Menambahkan elemen baru di bagian belakang antrian (rear) |
@@ -159,3 +209,65 @@ Terdapat tiga skenario:
 | **Print queue** | Dokumen yang dikirim ke printer lebih dulu akan dicetak lebih dulu. |
 | **Penjadwalan proses CPU** | Sistem operasi menggunakan queue untuk mengatur urutan proses yang akan dieksekusi. |
 | **Buffer streaming video** | Data video di-*buffer* dalam queue sehingga diputar berurutan sesuai urutan datangnya paket data. |
+
+---
+
+## Soal 4 — Case: Sistem Kasir Toko
+
+### Deskripsi Program
+
+Program `CashierApp` mensimulasikan sistem kasir toko menggunakan dua struktur data sekaligus: **Queue** untuk antrian pelanggan yang menunggu dilayani, dan **Stack** untuk menyimpan riwayat transaksi pelanggan yang sudah selesai dilayani.
+
+### Struktur Data yang Digunakan
+
+- **`Node`** — menyimpan satu data pelanggan/transaksi: `nomorAntrian`, `namaPelanggan`, dan `totalBelanja`.
+- **`Queue`** — antrian FIFO dengan pointer `front` (pelanggan paling depan) dan `rear` (paling belakang). Kapasitas maksimal **5 pelanggan**.
+- **`Stack`** — tumpukan LIFO dengan pointer `top` yang selalu menunjuk ke transaksi terbaru.
+
+### Fitur dan Cara Kerja
+
+| Menu | Operasi | Cara Kerja |
+|---|---|---|
+| Tambah Antrian | `enqueue()` | Node pelanggan baru ditambahkan di `rear` queue. Ditolak jika antrian sudah penuh (≥ 5 pelanggan). |
+| Layani Pelanggan | `dequeue()` + `push()` | Node diambil dari `front` queue (FIFO), lalu langsung di-*push* ke stack riwayat transaksi (LIFO). |
+| Tampilkan Antrian | `queue.tampilkan()` | Traversal dari `front` ke `rear`, menampilkan seluruh pelanggan yang sedang menunggu beserta nomor urut. |
+| Lihat Riwayat | `stack.tampilkan()` | Traversal dari `top` ke bawah, menampilkan transaksi dari yang **terbaru ke terlama** (LIFO). |
+
+### Alur Data Antar Struktur
+
+```
+  ENQUEUE                DEQUEUE + PUSH
+[Pelanggan] ──────► [ Queue (FIFO) ] ──────► [ Stack (LIFO) ]
+  masuk               front → rear            top = terbaru
+  di rear             dilayani dari front      riwayat transaksi
+```
+
+### Contoh Output Program
+
+```
+=== SISTEM KASIR TOKO ===
+1. Tambah Antrian
+2. Layani Pelanggan
+3. Tampilkan Antrian
+4. Lihat Riwayat Transaksi
+5. Keluar
+Pilih menu: 1
+
+Masukkan Nomor Antrian: A001
+Masukkan Nama Pelanggan: Andi
+Masukkan Total Belanja: 125000
+Data pelanggan ditambahkan ke antrian!
+Total antrian saat ini: 1/5
+
+Pilih menu: 2
+Melayani pelanggan A001 (Andi)
+Total belanja: Rp125.000
+Transaksi disimpan ke riwayat.
+
+Pilih menu: 4
+Riwayat Transaksi (Terbaru ke Terlama):
+----------------------------------------------------------
+1  . No: A001   | Nama: Andi            | Total: Rp125.000
+----------------------------------------------------------
+Total transaksi: 1
+```
