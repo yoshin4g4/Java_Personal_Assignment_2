@@ -1,0 +1,8 @@
+# Compiled class files
+bin/
+*.class
+
+# IDE and system files
+.vscode/
+.claude/
+.DS_Store
